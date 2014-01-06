@@ -1,0 +1,79 @@
+
+.site:before {
+	display: none;
+
+}
+
+
+#masthead{
+	 max-width: 100%;
+	 width: 100%;
+}
+
+#page{
+/*	width: 100%;*/
+}
+
+html, body {
+	/*max-width: 100%;*/
+	margin:0;
+	width: 100%;
+}
+
+body.custom-background {
+ background:#cbeef4;
+ max-width: 100%;
+width:100%;
+
+}
+
+.site{
+ background:#f56768;
+ max-width: 100%;
+}
+
+
+#lord_container{
+		background-color:#cbeef4;
+
+}
+
+#page_title{
+	padding-top: 10%;
+	padding-left: 10%;
+	background-color:#cbeef4;
+    font-size:40px;
+    margin: 0px;
+    font-weight:bold;
+}
+
+
+.container, #content{
+	margin: 0;
+}
+
+.container{	
+	background-color:#cbeef4;
+	padding-left: 10%;
+	padding-right: 10%;
+}
+
+#content{
+	-moz-column-count:2; /* Firefox */
+	-webkit-column-count:2; /* Safari and Chrome */
+	column-count:2;
+	position: absolute;
+	width: 80%;	
+}
+
+.pos_circles{
+	width: 55px;
+	height: 51px;
+	background-size: cover;
+	background-image: url(../fishy/unfilled.png);
+}
+
+#circles_container{
+	background-color:#cbeef4;
+	top: 10%;
+}

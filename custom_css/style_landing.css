@@ -1,0 +1,14 @@
+
+body, .site:before, .main-content{
+background-color: #cbeef4;
+}
+
+
+.site-content .entry-header {
+	display: none;
+}
+
+
+canvas {
+    position:absolute;
+}
