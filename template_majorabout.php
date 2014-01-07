@@ -10,37 +10,71 @@ get_header('majorabout');
 
 
 <div id="lord_container">
-	<div id="page_title">
-		<p> <?php echo strtoupper(get_the_title($ID)); ?> </p>
-	</div>
-
-	<div id="cont_1" class="container">
 
 
-		<div id="content">
-			<?php while (have_posts()) : the_post();/* Start loop */ ?>
-		        <?php the_content(); ?>
-			<?php endwhile; /* End loop */ ?>
-		</div>
-	</div>
 
-	<div id="cont_2" class="container">
-		<div id="content">
+	<?php
 
-			<?php 
-				function show_post($path) {
-				  $post = get_page($post->ID);
-				  $content = apply_filters('the_content', $post->post_content);
-				  echo "<p>";
-				  echo $content;
-				  echo "</p>";
-				}
+	$children = get_pages('child_of='.$post->post_parent.'&sort_column=menu_order&parent='.$post->post_parent);
+	if ($children) { 
+	?>
 
-				show_post('major/about');
-			?>
-		</div>
-	</div>
+
+	<?php 
+
+	
+	$count = 0;
+
+	foreach($children as $post){
+		$count += 1;
+		$parity = $count % 2;
+
+
+		
+		echo "<div class=\"post_title_".strval($parity)."\">";
+			echo "<p>".strtoupper($post->post_title)."</p>";
+		echo "</div>";
+
+		echo "<div class=\"cont_".strval($parity)."\" id=\"actual_cont_".strval($count)."\">";
+			echo "<p>";
+
+
+
+			$content = apply_filters('the_content', $post->post_content);
+			echo $content;
+		
+			echo "</p>";
+
+		echo "</div>";
+	}
+
+	$GLOBALS['post_count'] = $count;
+
+	
+
+	?>
+
+
+
+	<?php } ?>
+
+
 </div>
+
+<div id="floater">
+
+	<?php
+
+		$x = $GLOBALS['post_count'];
+		for ($i = 0; $i < $x; $i++) {
+
+			echo "<div class=\"circles\" id=\"circle_".strval($i+1)."\"> </div>";
+
+		}	
+
+	?>
+
+<div>
 
 
 
@@ -48,5 +82,5 @@ get_header('majorabout');
 <?php
 
 
-//get_sidebar();
+//get_sidebar('content');
 //get_footer();

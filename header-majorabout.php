@@ -25,12 +25,96 @@
 	<?php wp_head(); ?>
 
 	<script>
+		
 
 		jQuery(function($){
 			var n = parseInt($(window).height()) - 50;
 			var h = String(n); 
-			$('.container').css('height', h.concat("px"));
+			$('.cont_0').css('height', h.concat("px"));
+			$('.cont_1').css('height', h.concat("px"));
 		});
+
+
+		var previous_c = null;
+		
+
+		jQuery(function($){
+
+			var menu_h = $(".header-main").height();
+
+
+			$(window).scroll(function(){
+
+				var scroll_top = $(document).scrollTop();
+				var nearest = null;
+				var nearest_dist = 10000;
+
+
+				$('.cont_0').each(function(i, obj) {
+
+					var off = $('.header-main').offset().top - $(obj).offset().top;
+					off = Math.abs(off);
+
+					if(off < nearest_dist){
+						nearest_dist = off;
+						nearest = obj;
+					}	
+	    
+				});
+
+				$('.cont_1').each(function(i, obj) {
+
+					var off = $('.header-main').offset().top - $(obj).offset().top;
+					off = Math.abs(off);
+
+					if(off < nearest_dist){
+						nearest_dist = off;
+						nearest = obj;
+					}
+
+
+	    
+				});
+
+			  	//$("#floatee").text(nearest.id);
+			  	var num = nearest.id.replace('actual_cont_','');
+			  	var root = "http://localhost/wordpress/wp-content/themes/twentyfourteen/"
+			  	var imageUrl = root + "fishy/unfilled.png";
+			  	var imageUrlAlt = root+ "fishy/filled.png";
+			  	var circle = "#circle_" + num;
+
+			  	
+
+			  	if(previous_c != nearest){
+			  		console.log("");
+				  	$('.circles').each(function(i, obj) {
+
+				  		var container_id = nearest.id.replace('actual_cont_','');
+				  		var circle_id = obj.id.replace('circle_','');
+
+				  		var diff = container_id.localeCompare(circle_id);
+
+				  		if(diff == 0){
+				  			$(obj).css('background-image', 'url(' + imageUrlAlt + ')');
+				  			console.log(obj.id + " " + nearest.id);
+				  		} else {
+				  			$(obj).css('background-image', 'url(' + imageUrl + ')');
+				  			console.log("energy");
+				  		}
+						
+				  	});
+
+			  		previous_c = nearest;
+
+			  		
+
+			  	}
+
+			  
+			});
+
+		});
+
 
 
     </script>
