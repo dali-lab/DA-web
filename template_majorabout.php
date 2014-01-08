@@ -8,6 +8,38 @@ get_header('majorabout');
  ?>
 
 
+<div class="modalmodal">
+
+	<div id="modal_closer">
+		X
+	</div>
+
+
+
+	<div id="modal_inner_wrapper">
+		<p> Hi. I'm looking <br> for ... <br> </p>
+		<form id="search_modal_form" name="input" action="lol" method="get">
+
+			<div id="textForm">
+				<input type="text" name="user">
+			</div>
+
+			<div id="submitForm">
+				<input type="submit" value="Submit">
+			</div>
+
+		</form>
+	</div>
+
+
+
+
+</div>
+
+<div class="modal">
+
+
+</div>
 
 <div id="lord_container">
 
@@ -50,7 +82,6 @@ get_header('majorabout');
 
 	$GLOBALS['post_count'] = $count;
 
-	
 
 	?>
 
@@ -67,9 +98,7 @@ get_header('majorabout');
 
 		$x = $GLOBALS['post_count'];
 		for ($i = 0; $i < $x; $i++) {
-
 			echo "<div class=\"circles\" id=\"circle_".strval($i+1)."\"> </div>";
-
 		}	
 
 	?>

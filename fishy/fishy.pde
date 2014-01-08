@@ -12,6 +12,9 @@ color red_c = #f56768;
 color blue = #cbeef4;
 color whisker_green = #56f19f;
 
+int[] rainXpos = new int[90];
+int[] rainYpos = new int[90];
+
 
 // remove constant height of 800
 
@@ -45,7 +48,7 @@ void setup() {
 	collection.fill_array(4);
 	
 	//change this baby
-	string path = "http://localhost/wordpress/wp-content/themes/twentyfourteen/fishy/"
+	String path = "http://localhost/wordpress/wp-content/themes/twentyfourteen/fishy/";
 	
 	fish_1 = new TailedFish(scale_x*.6, scale_y*.6, path + "fish_01_03.png", true, true);
 	
@@ -56,7 +59,11 @@ void setup() {
    //turtle_1 = new Turtle(turtle_scale_x*.6, turtle_scale_y*.6, "fish_01_03.png");
 	cat_1 = new CatFish(cat_scale_x, cat_scale_y, path + "cat_fish_02.png");
 
-
+	for (int c = 0; c < rainXpos.length; c++)
+	{
+	rainXpos[c] = 0;
+	rainYpos[c] = 0;
+	}
 
 
 	
@@ -68,19 +75,22 @@ void resize(){
 		int x = int(javascript.p_get_width());
 		size(x, 800);
 	} else {
-		printl("LOL");
+		printl("LOL. Saisi messed up lmao");
 	}
 	
 }
 
 void draw() {
+
+	background(blue);
+	make_it_rain();
 	
 
-	// if(javascript!=null && !bound){
-	// 	size(int(javascript.p_get_width(), 800); 
-	// 	bound = true;
-	// }
-	background(blue);
+	if(javascript!=null && !bound){
+		size(int(javascript.p_get_width()), 800); 
+		bound = true;
+	}
+	//background(blue);
 
 
 	
@@ -106,6 +116,28 @@ void draw() {
 	cat_1.move();
 
 
+
+}
+
+
+void make_it_rain(){
+  fill(0);
+  
+  rainXpos[rainXpos.length-1] = int(random(1,width));
+  rainYpos[rainYpos.length-1] = int(random(1,height));
+   
+  for (int c =0; c < rainXpos.length -1 ; c++)
+  {
+  rainXpos[c]=rainXpos[c+1];
+  rainYpos[c]=rainYpos[c+1];
+  }
+   
+  for (int c =0; c< rainXpos.length; c++)
+  {
+    stroke(155,155,155,c);
+    noFill();
+    ellipse(rainXpos[c],rainYpos[c],90-c,90-c);
+  }
 
 }
 
@@ -136,6 +168,11 @@ class Body{
 	float angle_offset;
 	float offset_y;
 
+	int numBubbles = 50;
+	float bubble_count = 0;
+	float bubble_pacer = 5000;
+	Bubble[] bubbles;
+	boolean start = true;
 
 	Body(){
 		x = 0;
@@ -144,6 +181,7 @@ class Body{
 		offset_y = .1 * random(5, 10+1);
 		angle_offset = .15;
 		place_body();
+		generate_bubble_array();
 
 		//.01 * random(5,15);		
 	}
@@ -180,6 +218,78 @@ class Body{
 	}
 
 
+	void generate_bubble_array(){
+
+	    bubbles = new Bubble[numBubbles];
+	    for (int i = 0; i < numBubbles; i++) {
+	        bubbles[i] = new Bubble();
+	    }
+
+	}
+
+	void blow_bubbles(){
+
+		bubble_pacer+= 1;
+
+		// if(bubble_pacer < 10000 && !start){
+		// 	return;
+		// }
+
+		// if(bubble_pacer > 10000 && start){
+		// 	start = false;
+		// 	bubble_pacer = 1;
+		// 	return;
+		// }
+
+		if(bubble_pacer > 100){
+			bubble_count += 1;
+			bubble_pacer = 0;
+		}
+
+
+
+		
+
+		if(bubble_count > numBubbles){
+			bubble_count = numBubbles;
+		}
+
+	    smooth();
+	    boolean  destroy = false;
+	    for (int i = 0; i < bubble_count; i++) {
+
+	    	if(bubbles[i] == null){
+	    		continue;
+	    	}
+
+	    	if(bubbles[i].isJuvenile()){
+
+	    		if(offset_x < 0){
+	    			bubbles[i].set_loc(x-10-w, y+(h/2));
+	    		} else {
+	    			bubbles[i].set_loc(x+10+w, y+(h/2));
+	    			
+	    		}
+	    	}
+
+	        bubbles[i].update();
+	        bubbles[i].render();
+	        if ( bubbles[i].loc.y < -50) {
+	           if(bubbles[i].reset(bubbles[bubbles.length - 1])){
+	           		destroy = true;
+	           		bubble_count = 0;
+	           		bubble_pacer = 5000;
+	           		break;
+	           }
+
+	           bubbles[i] = null;
+	        }
+	    }
+
+	    if (destroy){
+	    	generate_bubble_array();
+	    }
+	}
 
 }
 
@@ -212,6 +322,7 @@ class Fish extends Body {
 	
 	
 	void sketch(){
+		blow_bubbles();	
 
 		if (offset_x < 0){
 			pushMatrix();
@@ -314,6 +425,7 @@ class TailedFish extends Fish {
 	
 	
 	void sketch_whole(){
+		blow_bubbles();	
 
 		if(super.get_offset_x() < 0){
 
@@ -452,7 +564,7 @@ class CatFish extends Body{
 
 	void sketch(){	
 
-
+		blow_bubbles();	
 
 		if(offset_x < 0){
 			float old_x = x;
@@ -557,6 +669,8 @@ class JellyFish extends Body{
 	}
 
 	void sketch(){	
+
+		blow_bubbles();	
 
 		if(offset_x < 0){
 
@@ -726,6 +840,8 @@ class Turtle extends Body{
 	}
 	
 	void sketch(){
+
+		blow_bubbles();	
 		if(offset_y > 0){
 
 			float old_x = x;
@@ -782,4 +898,52 @@ class Turtle extends Body{
 		return y;
 	}
 
+}
+
+class Bubble
+{
+    PVector loc;
+    float   speed;
+    float   radius;
+    boolean juvenile = true;
+     
+    Bubble()
+    {
+        speed = random(0.5, 2);
+        radius = 5;
+    }
+
+    void set_loc(float x, float y ){
+    	loc = new PVector(x,y);
+    	juvenile = false;
+    }
+    
+    boolean isJuvenile(){
+    	return juvenile;
+    }
+
+    void update()
+    {
+        loc.y -= speed;
+    }
+     
+    void render()
+    {
+        stroke(59, 173, 224);
+        fill(59, 173, 224, 64);
+        int i = 3;
+        // for (int i = 1; i < 3; i++) {
+        ellipse( loc.x, loc.y, i * radius * 2, i * radius * 2 );
+        //}
+    }
+     
+    boolean reset(Bubble bubble)
+    {
+    	return (this == bubble);
+        // loc.x = random(width);
+        // loc.y = height + 50;
+        // speed = random(0.5, 2);
+        // radius = random( 5, 10 );
+    }
+     
 }

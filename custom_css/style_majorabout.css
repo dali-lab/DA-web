@@ -73,7 +73,7 @@ width:100%;
 
 #floater{
 	top:65%;
-	left:80%;
+	left:90%;
 	position: fixed;
 }
 
@@ -91,3 +91,7 @@ width:100%;
 
 	background-image: url(../fishy/filled.png);	
 }
+
+
+
+

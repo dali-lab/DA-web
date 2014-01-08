@@ -25,7 +25,40 @@
 	<?php wp_head(); ?>
 
 	<script>
-		
+
+
+		jQuery(document).ready(function($){
+		  $("#search-box-modal-container").click(function(){
+
+		    	$(".modal").css("display", "block");
+		    	$(".modalmodal").css("display", "block");
+		    	$("#floater").hide();
+
+		    	var pos = parseInt($( window ).height()) / 2 ;
+
+		    	console.log(pos);
+
+		    	// $('.modalmodal').css('top', String(pos).concat("px"));
+
+		  });
+
+
+		  $("#modal_closer").click(function(){
+
+		    	$(".modal").css("display", "none");
+		    	$(".modalmodal").css("display", "none");
+		    	$("#floater").show();
+
+		    	var pos = parseInt($( window ).height()) / 2 ;
+
+		    	console.log(pos);
+
+		    	// $('.modalmodal').css('top', String(pos).concat("px"));
+
+		  });
+
+		});
+				
 
 		jQuery(function($){
 			var n = parseInt($(window).height()) - 50;
@@ -96,10 +129,9 @@
 
 				  		if(diff == 0){
 				  			$(obj).css('background-image', 'url(' + imageUrlAlt + ')');
-				  			console.log(obj.id + " " + nearest.id);
 				  		} else {
 				  			$(obj).css('background-image', 'url(' + imageUrl + ')');
-				  			console.log("energy");
+
 				  		}
 						
 				  	});
@@ -122,7 +154,7 @@
 
 	<link type="text/css" rel="stylesheet" href="http://localhost/wordpress/wp-content/themes/twentyfourteen/custom_css/style_header.css"/>
 	<link type="text/css" rel="stylesheet" href="http://localhost/wordpress/wp-content/themes/twentyfourteen/custom_css/style_majorabout.css"/>
-
+	<link type="text/css" rel="stylesheet" href="http://localhost/wordpress/wp-content/themes/twentyfourteen/custom_css/style_searchmodal.css"/>
 </head>
 
 
@@ -142,8 +174,14 @@
 		<div class="header-main">
 			<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
 
-			<div class="search-toggle">
+<!-- 			<div class="search-toggle">
 				<a href="#search-container" class="screen-reader-text"><?php _e( 'Search', 'twentyfourteen' ); ?></a>
+			</div> -->
+
+			<div id="search-box-modal-container">
+				<div id="search-box-modal">
+				</div>
+				
 			</div>
 
 			<nav id="primary-navigation" class="site-navigation primary-navigation" role="navigation">
@@ -153,11 +191,14 @@
 			</nav>
 		</div>
 
-		<div id="search-container" class="search-box-wrapper hide">
+<!-- 		<div id="search-container" class="search-box-wrapper hide">
 			<div class="search-box">
 				<?php get_search_form(); ?>
 			</div>
-		</div>
+		</div> -->
+
+
+		
 	</header><!-- #masthead -->
 
 	<div id="main" class="site-main">
