@@ -1,3 +1,19 @@
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class fishy extends PApplet {
+
 TailedFish fish_1;
 TailedFish fish_2;
 JellyFish jelly_1;
@@ -6,11 +22,11 @@ CatFish cat_1;
 Collection collection;
 JavaScript javascript;
 
-color white = #FFFFFF;
-color c = #fd9525;
-color red_c = #f56768;
-color blue = #cbeef4;
-color whisker_green = #56f19f;
+int white = 0xffFFFFFF;
+int c = 0xfffd9525;
+int red_c = 0xfff56768;
+int blue = 0xffcbeef4;
+int whisker_green = 0xff56f19f;
 
 int[] rainXpos = new int[90];
 int[] rainYpos = new int[90];
@@ -18,12 +34,12 @@ int[] rainYpos = new int[90];
 
 // remove constant height of 800
 
-interface JavaScript { void p_get_width();}
-void bindJavascript(JavaScript js) { javascript = js;}
+interface JavaScript { public void p_get_width();}
+public void bindJavascript(JavaScript js) { javascript = js;}
 
 
 
-void setup() {
+public void setup() {
 
 	size(1000,800);
 
@@ -50,11 +66,11 @@ void setup() {
 	//change this baby
 	String path = "http://localhost/wordpress/wp-content/themes/twentyfourteen/fishy/";
 	
-	fish_1 = new TailedFish(scale_x*.6, scale_y*.6, path + "fish_01_03.png", true, true);
+	fish_1 = new TailedFish(scale_x*.6f, scale_y*.6f, path + "fish_01_03.png", true, true);
 	
 	fish_2 = new TailedFish(scale_x, scale_y, path + "fish_01_03.png", true, true);
 
-	jelly_1 = new JellyFish(jelly_scale_x*.4, jelly_scale_y*.4, 6, path + "fish_04.png");
+	jelly_1 = new JellyFish(jelly_scale_x*.4f, jelly_scale_y*.4f, 6, path + "fish_04.png");
 	
    //turtle_1 = new Turtle(turtle_scale_x*.6, turtle_scale_y*.6, "fish_01_03.png");
 	cat_1 = new CatFish(cat_scale_x, cat_scale_y, path + "cat_fish_02.png");
@@ -70,24 +86,24 @@ void setup() {
 	
 }
 
-void resize(){
+public void resize(){
 	if(javascript != null){
-		int x = int(javascript.p_get_width());
+		int x = PApplet.parseInt(javascript.p_get_width());
 		size(x, 800);
 	} else {
-		printl("LOL. Saisi messed up lmao");
+		printl("LOL");
 	}
 	
 }
 
-void draw() {
+public void draw() {
 
 	background(blue);
-	//make_it_rain();
+	make_it_rain();
 	
 
 	if(javascript!=null && !bound){
-		size(int(javascript.p_get_width()), 800); 
+		size(PApplet.parseInt(javascript.p_get_width()), 800); 
 		bound = true;
 	}
 	//background(blue);
@@ -120,11 +136,11 @@ void draw() {
 }
 
 
-void make_it_rain(){
+public void make_it_rain(){
   fill(0);
   
-  rainXpos[rainXpos.length-1] = int(random(1,width));
-  rainYpos[rainYpos.length-1] = int(random(1,height));
+  rainXpos[rainXpos.length-1] = PApplet.parseInt(random(1,width));
+  rainYpos[rainYpos.length-1] = PApplet.parseInt(random(1,height));
    
   for (int c =0; c < rainXpos.length -1 ; c++)
   {
@@ -150,7 +166,7 @@ class Collection{
 
 	}
 
-	void fill_array(int x){
+	public void fill_array(int x){
 		body_count = x;
 		array = new float[x];
 		for(int i = 0; i < x; i+= 1){
@@ -177,16 +193,16 @@ class Body{
 	Body(){
 		x = 0;
 		angle = random(0, TWO_PI);
-		offset_x = .1 * random(5, 10+1);
-		offset_y = .1 * random(5, 10+1);
-		angle_offset = .15;
+		offset_x = .1f * random(5, 10+1);
+		offset_y = .1f * random(5, 10+1);
+		angle_offset = .15f;
 		place_body();
 		generate_bubble_array();
 
 		//.01 * random(5,15);		
 	}
 
-	void place_body(){
+	public void place_body(){
 
 		float space = height/collection.body_count - 1;
 		boolean quit = true;
@@ -218,7 +234,7 @@ class Body{
 	}
 
 
-	void generate_bubble_array(){
+	public void generate_bubble_array(){
 
 	    bubbles = new Bubble[numBubbles];
 	    for (int i = 0; i < numBubbles; i++) {
@@ -227,7 +243,7 @@ class Body{
 
 	}
 
-	void blow_bubbles(){
+	public void blow_bubbles(){
 
 		bubble_pacer+= 1;
 
@@ -266,6 +282,7 @@ class Body{
 
 	    		if(offset_x < 0){
 	    			bubbles[i].set_loc(x-10-w, y+(h/2));
+	    			println(x);
 	    		} else {
 	    			bubbles[i].set_loc(x+10+w, y+(h/2));
 	    			
@@ -295,9 +312,9 @@ class Body{
 
 class Eye {
 	float x, y, w, h;
-	color r;
+	int r;
 
-	Eye(float start_x, float start_y, float breadth, float headth, color rangi){
+	Eye(float start_x, float start_y, float breadth, float headth, int rangi){
 		x = start_x;
 		y = start_y;
 		w = breadth;
@@ -305,7 +322,7 @@ class Eye {
 		r = rangi;
 	}
 
-	void sketch(){
+	public void sketch(){
 		fill(r);
 		ellipse(x, y, w, h);
 	}
@@ -321,7 +338,7 @@ class Fish extends Body {
 	}
 	
 	
-	void sketch(){
+	public void sketch(){
 		blow_bubbles();	
 
 		if (offset_x < 0){
@@ -337,12 +354,12 @@ class Fish extends Body {
 
 	}
 
-	void sketch_sub(float x, float y){
+	public void sketch_sub(float x, float y){
 		image(img, x, y, w, h);	
 		noStroke();
 		
-		float pupil_x = x + (w*.7);
-		float pupil_y = y + (h*.3);
+		float pupil_x = x + (w*.7f);
+		float pupil_y = y + (h*.3f);
 		Eye pupil = new Eye(pupil_x, pupil_y, h/12, h/12, white);
 		pupil.sketch();
 
@@ -350,7 +367,7 @@ class Fish extends Body {
 		iris.sketch();		
 	}
 
-	void move(){
+	public void move(){
 		if((x < -w) && offset_x < 0) {
 			offset_x *= -1;
 		}
@@ -363,19 +380,19 @@ class Fish extends Body {
 
 		angle += angle_offset;
 		//angle += .15;
-		y += sin(angle) * .5;
+		y += sin(angle) * .5f;
 	}
 
 
-	float get_x(){
+	public float get_x(){
 		return x;
 	}
 
-	float get_y(){
+	public float get_y(){
 		return y;
 	}
 
-	float get_offset_x(){
+	public float get_offset_x(){
 		return offset_x;
 	}
 
@@ -394,37 +411,37 @@ class TailedFish extends Fish {
 	}
 	
 	//
-	void sketch_tail(){
+	public void sketch_tail(){
 		smooth();
 		noStroke();
 		
 		fill(c);
-		ellipse(x+(w/10), y+(w*.4), w/2, h/1.75);
+		ellipse(x+(w/10), y+(w*.4f), w/2, h/1.75f);
 	}
 
 	// sides__
-	void sketch_pectoral(){
+	public void sketch_pectoral(){
 		smooth();
 		noStroke();
 		fill(c);
 		//arc(x*3, y*1.6, w/5, tail_h/3.5,PI/2,PI+(PI/2), CHORD);
 
 		float fin_width = w/6;
-		float fin_height = h/3.5;
+		float fin_height = h/3.5f;
 
-		float a = x+w/2.5;
+		float a = x+w/2.5f;
 		float b = y+h/2-fin_height;
 		pushMatrix();
 		translate(a, b);
 		rotate(radians(25));
 
 		// tl, tr, bl, br
-		rect(0, 0 , fin_width, fin_height, fin_width/.5, fin_width/5, fin_width/5, fin_width/.5);
+		rect(0, 0 , fin_width, fin_height, fin_width/.5f, fin_width/5, fin_width/5, fin_width/.5f);
 		popMatrix();
 	}
 	
 	
-	void sketch_whole(){
+	public void sketch_whole(){
 		blow_bubbles();	
 
 		if(super.get_offset_x() < 0){
@@ -487,17 +504,17 @@ class TailedFish extends Fish {
 
 	}
 
-	void move(){
+	public void move(){
 		super.move();
 		x = super.get_x();
 		y = super.get_y();
 	}
 
-	float get_x(){
+	public float get_x(){
 		return x;
 	}
 
-	float get_y(){
+	public float get_y(){
 		return y;
 	}
 	
@@ -515,54 +532,54 @@ class CatFish extends Body{
 
 	}
 	
-	void sketch_tail(){
+	public void sketch_tail(){
 		smooth();
 		noStroke();
 		fill(c);
-		ellipse(x+(w/10), y+(w*.4), w/2, h/1.75);
+		ellipse(x+(w/10), y+(w*.4f), w/2, h/1.75f);
 	}
 	
-	void sketch_ears(){
+	public void sketch_ears(){
 		smooth();
 		stroke(whisker_green);
-		triangle(x+(w*.7), y-(h/10), x+(w*.925), y+(h/2.5), x+(w/4)*2,y+(h/2.5));
-		triangle(x+(w*.8), y-(h/30), x+(w*.9), y+(h/2.5), x+(w/3)*2,y+(h/2.5));
+		triangle(x+(w*.7f), y-(h/10), x+(w*.925f), y+(h/2.5f), x+(w/4)*2,y+(h/2.5f));
+		triangle(x+(w*.8f), y-(h/30), x+(w*.9f), y+(h/2.5f), x+(w/3)*2,y+(h/2.5f));
 		noStroke();
 	}
 
 
-	void sketch_paw_top(){
+	public void sketch_paw_top(){
 		fill(c);
-		ellipse(x+(w/1.35), y+(w*.5), w/8, h/8);		
+		ellipse(x+(w/1.35f), y+(w*.5f), w/8, h/8);		
 	}
 
-	void sketch_paw_bottom(){
+	public void sketch_paw_bottom(){
 		fill(c);
-		ellipse(x+(w*.97), y+(w*.5), w/8, h/8);		
+		ellipse(x+(w*.97f), y+(w*.5f), w/8, h/8);		
 	}
 
-	void sketch_nose(){
+	public void sketch_nose(){
 		fill(white);
 		stroke(whisker_green);
 
-		float a = x+(w*.97);
-		float b = y+(w*.3);
+		float a = x+(w*.97f);
+		float b = y+(w*.3f);
 		float c = w/8;
 		float d = h/8;
 
 		strokeWeight(2);
 
 		line(a,b,a-c*2, b+d);
-		line(a,b,a-c*1.75, b+d*.25);
+		line(a,b,a-c*1.75f, b+d*.25f);
 		strokeWeight(1);
-		line(a,b,a+c*1.25, b-d);
-		line(a,b,a+c*1.25, b-d*.25);
+		line(a,b,a+c*1.25f, b-d);
+		line(a,b,a+c*1.25f, b-d*.25f);
 
 		noStroke();
 		ellipse(a, b, c, d);	
 	}
 
-	void sketch(){	
+	public void sketch(){	
 
 		blow_bubbles();	
 
@@ -592,7 +609,7 @@ class CatFish extends Body{
 
 	}
 
-	void sketch_sub(){
+	public void sketch_sub(){
 		sketch_tail();
 		sketch_paw_bottom();	
 		sketch_ears();
@@ -600,8 +617,8 @@ class CatFish extends Body{
 		image(img, x, y, w, h);	
 		noStroke();
 		
-		float pupil_x = x + (w*.8);
-		float pupil_y = y + (h*.3);
+		float pupil_x = x + (w*.8f);
+		float pupil_y = y + (h*.3f);
 		Eye pupil = new Eye(pupil_x, pupil_y, h/12, h/12, white);
 		pupil.sketch();
 
@@ -612,7 +629,7 @@ class CatFish extends Body{
 		sketch_nose();		
 	}
 
-	void move(){
+	public void move(){
 		if((x < -w) && offset_x < 0) {
 			offset_x *= -1;
 		}
@@ -623,15 +640,15 @@ class CatFish extends Body{
 		x+= offset_x;
 
 		angle += angle_offset;
-		y += sin(angle) * .5;
+		y += sin(angle) * .5f;
 	}
 
 
-	float get_x(){
+	public float get_x(){
 		return x;
 	}
 
-	float get_y(){
+	public float get_y(){
 		return y;
 	}
 
@@ -662,13 +679,13 @@ class JellyFish extends Body{
 
 
 		for(int i = 0; i < leg_limit; i+=1) {
-			leg_heights[i] = random(h/2.5,h/1.5);
+			leg_heights[i] = random(h/2.5f,h/1.5f);
 			leg_angles[i] = random(0,90);
 			leg_tickers[i] = 0;
 		}
 	}
 
-	void sketch(){	
+	public void sketch(){	
 
 		blow_bubbles();	
 
@@ -696,21 +713,21 @@ class JellyFish extends Body{
 		
 	}
 
-	void sketch_sub(){
+	public void sketch_sub(){
 
 		noStroke();
-		float pupil_x = x + (w*.35);
-		float pupil_y = y + (h*.82);
+		float pupil_x = x + (w*.35f);
+		float pupil_y = y + (h*.82f);
 		float leg_distance = w/(leg_limit*2);
 		float jelly_leg_y = pupil_y;
 		float jelly_leg_x = x;
 
 
-		fill(c);
+
 
 		// legs
 		for (int i = 0; i < leg_limit; i+=1){
-			jelly_leg_x += leg_distance*1.5;
+			jelly_leg_x += leg_distance*1.5f;
 			
 
 			float displacement = abs(sin(leg_angles[i]));
@@ -737,7 +754,7 @@ class JellyFish extends Body{
 			leg_tickers[i] += 1;
 
 			if(leg_tickers[i] % 60 == 0){
-				leg_angles[i] += .15;
+				leg_angles[i] += .15f;
 			}
 
 			if(leg_angle > 20000 && leg_angle % 90 == 0){
@@ -758,11 +775,11 @@ class JellyFish extends Body{
 			pupil.sketch();
 			Eye iris = new Eye(pupil_x, pupil_y, h/20, h/20, red_c);
 			iris.sketch();
-			pupil_x = x + (w*.7);
+			pupil_x = x + (w*.7f);
 		}		
 	}
 
-	void move(){
+	public void move(){
 		if((x < -w) && offset_x < 0) {
 			offset_x *= -1;
 		}
@@ -773,14 +790,14 @@ class JellyFish extends Body{
 		x+= offset_x;
 
 		angle += angle_offset;
-		y += sin(angle) * .5;
+		y += sin(angle) * .5f;
 	}
 
-	float get_x(){
+	public float get_x(){
 		return x;
 	}
 
-	float get_y(){
+	public float get_y(){
 		return y;
 	}
 
@@ -796,20 +813,20 @@ class Turtle extends Body{
 		h = headth;
 		img = loadImage(filename);
 
-		if(x + w + w*.5 > width){
-			x = width - w- w*.5;
+		if(x + w + w*.5f > width){
+			x = width - w- w*.5f;
 		}
 	}
 	
-	void draw_head(){
+	public void draw_head(){
 		
 
-		float head_x = x+(w*.475);
+		float head_x = x+(w*.475f);
 		float head_y = y+(h/8);
 		float head_w = w/2;
-		float head_h = h/1.75;
+		float head_h = h/1.75f;
 
-		float pupil_x = x+(w*.375);
+		float pupil_x = x+(w*.375f);
 		float pupil_y = y - (h/14);
 
 
@@ -823,23 +840,23 @@ class Turtle extends Body{
 			pupil.sketch();
 			Eye iris = new Eye(pupil_x, pupil_y, h/20, h/20, red_c);
 			iris.sketch();
-			pupil_x = x+(w*.57);
+			pupil_x = x+(w*.57f);
 		}
 
 
 	}
 
 
-	void draw_limbs(){
+	public void draw_limbs(){
 		fill(c);
-		arc(x+w/7, y+h/3, w/1.5, h/2, PI, 2*PI, CHORD);
-		arc(x+w*6/7, y+h/3, w/1.5, h/2, PI, 2*PI, CHORD);
-		ellipse(x+w/1.5, y+w/1.5, w/2.15, w/2);
-		ellipse(x+w/3.5, y+w/1.5, w/2.15, w/2);
+		arc(x+w/7, y+h/3, w/1.5f, h/2, PI, 2*PI, CHORD);
+		arc(x+w*6/7, y+h/3, w/1.5f, h/2, PI, 2*PI, CHORD);
+		ellipse(x+w/1.5f, y+w/1.5f, w/2.15f, w/2);
+		ellipse(x+w/3.5f, y+w/1.5f, w/2.15f, w/2);
 
 	}
 	
-	void sketch(){
+	public void sketch(){
 
 		blow_bubbles();	
 		if(offset_y > 0){
@@ -866,35 +883,35 @@ class Turtle extends Body{
 		
 	}
 
-	void sketch_sub(){
+	public void sketch_sub(){
 		noStroke();	
 		draw_head();
 		draw_limbs();	
 		image(img, x, y, w, h);			
 	}
 
-	void move(){
+	public void move(){
 
 		if((y < -h) && offset_y < 0) {
-			offset_y *= -.75;
+			offset_y *= -.75f;
 		}
 		else if((y > (height+h)) && offset_y > 0){
-			offset_y *= -.75;
+			offset_y *= -.75f;
 		}
 
 
 		y+= offset_y;
 
 		angle += angle_offset;
-		x += sin(angle) * .5;
+		x += sin(angle) * .5f;
 	}
 
 
-	float get_x(){
+	public float get_x(){
 		return x;
 	}
 
-	float get_y(){
+	public float get_y(){
 		return y;
 	}
 
@@ -909,25 +926,25 @@ class Bubble
      
     Bubble()
     {
-        speed = random(0.5, 2);
+        speed = random(0.5f, 2);
         radius = 5;
     }
 
-    void set_loc(float x, float y ){
+    public void set_loc(float x, float y ){
     	loc = new PVector(x,y);
     	juvenile = false;
     }
     
-    boolean isJuvenile(){
+    public boolean isJuvenile(){
     	return juvenile;
     }
 
-    void update()
+    public void update()
     {
         loc.y -= speed;
     }
      
-    void render()
+    public void render()
     {
         stroke(59, 173, 224);
         fill(59, 173, 224, 64);
@@ -937,7 +954,7 @@ class Bubble
         //}
     }
      
-    boolean reset(Bubble bubble)
+    public boolean reset(Bubble bubble)
     {
     	return (this == bubble);
         // loc.x = random(width);
@@ -946,4 +963,13 @@ class Bubble
         // radius = random( 5, 10 );
     }
      
+}
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "fishy" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
 }

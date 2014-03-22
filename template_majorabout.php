@@ -58,6 +58,11 @@ get_header('majorabout');
 	$count = 0;
 
 	foreach($children as $post){
+		//if(empty(trim($post->post_title))){
+		if(trim($post->post_title) == "Minor"){
+			continue;
+		}
+
 		$count += 1;
 		$parity = $count % 2;
 

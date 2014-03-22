@@ -29,8 +29,13 @@
 
 	<script type="text/javascript">
 
+
+	var w = jQuery(window).width();
+
+
+
 	function p_get_width(){
-		return parseInt(<?php echo get_custom_header()->width; ?>);
+		return parseInt(w);
 
 	}
 
