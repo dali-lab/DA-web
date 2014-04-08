@@ -18,21 +18,21 @@ get_header('majorabout');
 
 	<div id="modal_inner_wrapper">
 		<p> Hi. I'm looking <br> for ... <br> </p>
-		<form id="search_modal_form" name="input" action="lol" method="get">
+
+		<form id="search_modal_form" role="search" action="<?php echo home_url( '/' ); ?>">
 
 			<div id="textForm">
-				<input type="text" name="user">
+				<input type="text" name="s" value ="">
 			</div>
 
 			<div id="submitForm">
-				<input type="submit" value="Submit">
+				<input type="submit" value="Search">
 			</div>
 
 		</form>
+
+
 	</div>
-
-
-
 
 </div>
 

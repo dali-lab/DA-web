@@ -531,3 +531,26 @@ require get_template_directory() . '/inc/customizer.php';
 if ( ! class_exists( 'Featured_Content' ) && 'plugins.php' !== $GLOBALS['pagenow'] ) {
 	require get_template_directory() . '/inc/featured-content.php';
 }
+
+
+
+
+ include 'form-persons.php';
+function new_link_display() {
+    display_persons_form();
+}
+
+
+function new_link_page() {
+    if (function_exists('add_submenu_page') )
+        add_submenu_page('index.php', __('Add people'), __('Add people'), 'manage_options', 'new-link-display', 'new_link_display');
+}
+add_action('admin_menu', 'new_link_page');
+
+
+
+
+function custom_excerpt_length( $length ) {
+	return 10;
+}
+add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );

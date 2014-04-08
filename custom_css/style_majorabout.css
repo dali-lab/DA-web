@@ -27,6 +27,12 @@ width:100%;
 
 }
 
+html, body, #main {
+	max-width: 100%;
+	margin:0; 
+	width: 100%;
+}
+
 .site{
  background:#f56768;
  max-width: 100%;
@@ -93,5 +99,10 @@ width:100%;
 }
 
 
+.primary-navigation ul ul {
+	display:none;
+}
 
-
+.admin-bar.masthead-fixed .site-header{
+	top: 0px;
+}

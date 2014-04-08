@@ -22,12 +22,51 @@
 	<?php wp_head(); ?>
 
 
+	<script>
+			jQuery(document).ready(function($){
+		  $("#search-box-modal-container").click(function(){
+
+		    	$(".modal").css("display", "block");
+		    	$(".modalmodal").css("display", "block");
+		    	$("#floater").hide();
+
+		    	var pos = parseInt($( window ).height()) / 2 ;
+
+		    	console.log(pos);
+
+		    	// $('.modalmodal').css('top', String(pos).concat("px"));
+
+		  });
+
+
+		  $("#modal_closer").click(function(){
+
+		    	$(".modal").css("display", "none");
+		    	$(".modalmodal").css("display", "none");
+		    	$("#floater").show();
+
+		    	var pos = parseInt($( window ).height()) / 2 ;
+
+		    	console.log(pos);
+
+		    	// $('.modalmodal').css('top', String(pos).concat("px"));
+
+		  });
+
+		});
+	 </script>
+
 	<link type="text/css" rel="stylesheet" href="http://localhost/wordpress/wp-content/themes/twentyfourteen/custom_css/style_landing.css"/>
 	<link type="text/css" rel="stylesheet" href="http://localhost/wordpress/wp-content/themes/twentyfourteen/custom_css/style_header.css"/>
+	<link type="text/css" rel="stylesheet" href="http://localhost/wordpress/wp-content/themes/twentyfourteen/custom_css/style_searchmodal.css"/>
+
 	<script type="text/javascript" src="http://localhost/wordpress/wp-content/themes/twentyfourteen/fishy/processing.js"></script>
 	
 
 	<script type="text/javascript">
+
+
+
 
 
 	var w = jQuery(window).width();
@@ -79,22 +118,29 @@
 		<div class="header-main">
 			<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
 
-			<div class="search-toggle">
+<!-- 			<div class="search-toggle">
 				<a href="#search-container" class="screen-reader-text"><?php _e( 'Search', 'twentyfourteen' ); ?></a>
+			</div> -->
+
+
+			<div id="search-box-modal-container">
+				<div id="search-box-modal">
+				</div>
 			</div>
+
 
 			<nav id="primary-navigation" class="site-navigation primary-navigation" role="navigation">
 				<h1 class="menu-toggle"><?php _e( 'Primary Menu', 'twentyfourteen' ); ?></h1>
 				<a class="screen-reader-text skip-link" href="#content"><?php _e( 'Skip to content', 'twentyfourteen' ); ?></a>
-				<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'nav-menu' ) ); ?>
+				<?php wp_nav_menu( array( 'theme_location' => 'primary','menu' => 'standard', 'menu_class' => 'nav-menu' ) ); ?>
 			</nav>
 		</div>
 
-		<div id="search-container" class="search-box-wrapper hide">
+<!-- 		<div id="search-container" class="search-box-wrapper hide">
 			<div class="search-box">
 				<?php get_search_form(); ?>
 			</div>
-		</div>
+		</div> -->
 	</header><!-- #masthead -->
 
 	<div id="main" class="site-main">
