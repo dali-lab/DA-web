@@ -1,0 +1,108 @@
+
+.site:before {
+	display: none;
+
+}
+
+
+#masthead{
+	 max-width: 100%;
+	 width: 100%;
+}
+
+#page{
+/*	width: 100%;*/
+}
+
+html, body {
+	/*max-width: 100%;*/
+	margin:0;
+	width: 100%;
+}
+
+body.custom-background {
+ background:#cbeef4;
+ max-width: 100%;
+width:100%;
+
+}
+
+html, body, #main {
+	max-width: 100%;
+	margin:0; 
+	width: 100%;
+}
+
+.site{
+ background:#f56768;
+ max-width: 100%;
+}
+
+
+#lord_container{
+		background-color:#cbeef4;
+
+}
+
+
+.post_title_0, .post_title_1{
+	padding-top: 10%;
+	padding-left: 10%;
+	background-color:#cbeef4;
+    font-size:40px;
+    margin: 0px;
+    font-weight:bold;
+}
+
+.post_title_0 p, .post_title_1 p{
+	margin: 0px;
+}
+
+
+.cont_0, .cont_1{
+	-moz-column-count:2; /* Firefox */
+	-webkit-column-count:2; /* Safari and Chrome */
+	column-count:2;
+	width: 80%;	
+	padding-left: 10%;
+	padding-right: 10%;
+}
+
+.cont_0, .post_title_0{
+	background-color:#bfdee3;
+}
+
+.cont_1, .post_title_1{
+	 background-color:#cbeef4;
+}
+
+
+#floater{
+	top:65%;
+	left:90%;
+	position: fixed;
+}
+
+
+.circles{
+	height: 30px;
+	width: 32px;
+	background-image: url(../fishy/unfilled.png);
+	background-size: cover;
+	margin-bottom: 10px;
+
+}
+
+#circle_1{
+
+	background-image: url(../fishy/filled.png);	
+}
+
+
+.primary-navigation ul ul {
+	display:none;
+}
+
+.admin-bar.masthead-fixed .site-header{
+	top: 0px;
+}

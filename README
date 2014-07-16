@@ -1,7 +1,1 @@
-This is a wordpress theme folder for the digital arts website
-It is a standard wordpress theme
-Templates for the various pages are prefixed with template_
-i.e: landing page template is template_landingpage.php
-
-The fish animations are rendered in processing.
-The pde file is in fishy
+hello world. this is a test

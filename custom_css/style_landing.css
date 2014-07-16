@@ -1,0 +1,38 @@
+
+html, body, #main {
+	max-width: 100%;
+	margin:0;
+	width: 100%;
+}
+
+
+
+
+
+#masthead{
+	 max-width: 100%;
+	 width: 100%;
+
+}
+
+body, .site:before, .main-content{
+background-color: #cbeef4;
+}
+
+
+.site-content .entry-header {
+	display: none;
+}
+
+
+canvas {
+    position:absolute;
+}
+
+canvas{
+	max-width: 120%;
+}
+
+.admin-bar.masthead-fixed .site-header{
+	top: 0px;
+}
